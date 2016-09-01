@@ -1,0 +1,1185 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.Random;
+
+public class Main {
+
+    static Scanner entrada = new Scanner(System.in);
+    static Random rnd = new Random();
+    static ArrayList<Integer> deck = new ArrayList<>();
+    static ArrayList<Integer> deckS = new ArrayList<>();
+    static ArrayList<Integer> deckPlayer = new ArrayList<>();
+    static ArrayList<Integer> pc1 = new ArrayList<>();
+    static ArrayList<Integer> pc2 = new ArrayList<>();
+    static ArrayList<Integer> pc3 = new ArrayList<>();
+    static String Cartas[] = new String[108];
+    static int Op = 0, P1 = 1, P2 = 2, P3 = 3, Se = 1;
+    static int reverse[] = {0, 1, 2, 3};
+    static byte drawI = -1;
+    static boolean cambio = false, juega = true;
+    static char c[] = {'A', 'R', 'G', 'Y', 'B'};
+    static String ce[] = {"hola", "\033[31mRojo", "\033[32mVerde", "\033[33mAmarillo", "\033[34mAzul"};
+    static int UCarta;
+    static int NDraw = -1;
+    static String Win = "nadie";
+    static String nick;
+
+    public static void main(String[] args) throws InterruptedException {
+        inst();
+        System.out.print("Ingrese su nick: ");
+        nick = entrada.next();
+        System.out.println("");
+        Cartas = llenar(Cartas);
+        deck = llenar(deck);
+        UCarta = draw();
+        int turnos = 1;
+        deckPlayer = repartir(deckPlayer);
+        pc1 = repartir(pc1);
+        pc2 = repartir(pc2);
+        pc3 = repartir(pc3);
+        System.out.println("---------------Incio-----------------");
+        System.out.println("Primera Carta: " + ccarta(UCarta));
+        System.out.println("");
+        while ("nadie".equals(Win)) {
+            for (int i = 0; i < 4; i++) {
+                
+                for (int j = 0; j < 4; j++) {
+                    
+                }
+                
+                if (i == Op) {
+                    if (NDraw != -1) {
+                        
+                        if (NDraw == 0) {
+                            NDraw = -1;
+                            turnos++;
+                        } else {
+                            System.out.println("---------------Ronda " + turnos + "-----------------");
+                            info(UCarta);
+                            System.out.println("");
+                            turnos++;
+                            deckPlayer = draw(deckPlayer, NDraw, nick);
+                            NDraw = -1;
+                            new Scanner(System.in).nextLine();
+                        }
+                    } else {
+                        System.out.println("---------------Ronda " + turnos + "-----------------");
+                        info(UCarta);
+                        System.out.println("");
+                        turnos++;
+                        JU(deckPlayer, UCarta, nick);
+                        if (!"nadie".equals(Win)) {
+                            break;
+                        }
+                        if (cambio == true) {
+                            break;
+                        }
+                    }
+                }
+                if (i == P1) {
+                    if (NDraw != -1) {
+                        if (NDraw == 0) {
+                            
+                            turnos++;
+                            NDraw = -1;
+                            
+                        } else {
+                            pc1 = draw(pc1, NDraw, "PC1");
+                            NDraw = -1;
+                            turnos++;
+                        }
+                    } else {
+                        turnos++;
+                        IA(pc1, UCarta, "PC1");
+                        if (!"nadie".equals(Win)) {
+                            break;
+                        }
+                        if (cambio == true) {
+                            break;
+                        }
+                    }
+                }
+                if (i == P2) {
+                    if (NDraw != -1) {
+                        if (NDraw == 0) {
+                            
+                            turnos++;
+                            
+                            NDraw = -1;
+                        } else {
+                            turnos++;
+                            pc2 = draw(pc2, NDraw, "PC2");
+                            NDraw = -1;
+                        }
+                    } else {
+                        turnos++;
+                        IA(pc2, UCarta, "PC2");
+                        if (!"nadie".equals(Win)) {
+                            break;
+                        }
+                        if (cambio == true) {
+                            break;
+                        }
+                    }
+                }
+                if (i == P3) {
+                    if (NDraw != -1) {
+                        if (NDraw == 0) {
+                            
+                            turnos++;
+                            
+                            NDraw = -1;
+                        } else {
+                            turnos++;
+                            pc3 = draw(pc3, NDraw, "PC3");
+                            NDraw = -1;
+                        }
+                    } else {
+                        turnos++;
+                        IA(pc3, UCarta, "PC3");
+                        if (!"nadie".equals(Win)) {
+                            break;
+                        }
+                        if (cambio == true) {
+                            break;
+                        }
+                    }
+                }
+            }
+            if (juega) {
+                Op = reverse[0];
+                P1 = reverse[1];
+                P2 = reverse[2];
+                P3 = reverse[3];
+                cambio = false;
+
+            } else {
+                juega = true;
+                cambio = false;
+
+            }
+
+            new Scanner(System.in).nextLine();
+
+        }
+        if (Win == nick) {
+            for (int i = 0; i < 6; i++) {
+                System.out.println("\033[30m¡Felicidades " + nick + " has ganado!");
+                System.out.println("\033[31m¡Felicidades " + nick + " has ganado!");
+                System.out.println("\033[32m¡Felicidades " + nick + " has ganado!");
+                System.out.println("\033[33m¡Felicidades " + nick + " has ganado!");
+                System.out.println("\033[34m¡Felicidades " + nick + " has ganado!");
+                System.out.println("\033[35m¡Felicidades " + nick + " has ganado!");
+                System.out.println("\033[36m¡Felicidades " + nick + " has ganado!");
+                System.out.println("\033[37m¡Felicidades " + nick + " has ganado!");
+            }
+        } else {
+            System.out.println(Win + ": ¡Uno!");
+            System.out.println("Gana " + Win);
+        }
+    }
+
+    static void inst() {
+        System.out.println("-Para jugar una carta solo debe poner por consola \n"
+                + "el indice que le coresponde a cada carta \n"
+                + "iniciando de 0 y terminado en el n-1");
+        System.out.println("");
+        System.out.println("-Si juega una carta que pueda cambiar el color de juego \n"
+                + "solo tendra que poner el indice de la carta y despues el color (rojo,verde,azul,amarillo)");
+        System.out.println("");
+        System.out.println("-Si no tiene cartas que le sirvan para jugar solo digite un '-1' \n"
+                + "con esto robara una carta automaticamente");
+        System.out.println("");
+        System.out.println("+Si trata de jugar una carta que no corresponde a las condiciones \n"
+                + "para ser jugada sera penalizado robando una carta");
+        System.out.println("");
+    }
+
+    static void print(String lista[]) {
+        System.out.print("[");
+        for (int i = 0; i < lista.length; i++) {
+            System.out.print(lista[i]);
+            if (i < lista.length - 1) {
+                System.out.print(",");
+            }
+        }
+        System.out.println("]");
+    }
+
+    static void print(short lista[]) {
+        System.out.print("[");
+        for (int i = 0; i < lista.length; i++) {
+            System.out.print(lista[i]);
+            if (i < lista.length - 1) {
+                System.out.print(",");
+            }
+        }
+        System.out.println("]");
+    }
+
+    static void print(ArrayList lista) {
+        System.out.print("[");
+        for (int i = 0; i < lista.size(); i++) {
+            if ((int) lista.get(i) != -1) {
+                System.out.print(lista.get(i));
+            }
+            if (i < lista.size() - 1) {
+                System.out.print(",");
+            }
+        }
+        System.out.println("]");
+    }
+
+    static String ccarta(int x) {
+        String cartaS = Cartas[x];
+        char color = cartaS.charAt(0);
+        char numero = cartaS.charAt(1);
+        String carta = traductor(color, numero);
+        return carta;
+    }
+
+    static ArrayList llenar(ArrayList lista) {
+        for (int i = 0; i < 108; i++) {
+            lista.add(i);
+        }
+
+        return lista;
+    }
+
+    static void quecartas(ArrayList player) {
+        int carta;
+        String casiCarta;
+        char color, numero;
+        System.out.print("[");
+        for (int i = 0; i < player.size(); i++) {
+            carta = (int) player.get(i);
+            casiCarta = (Cartas[carta]);
+            color = casiCarta.charAt(0);
+            numero = casiCarta.charAt(1);
+            casiCarta = traductor(color, numero);
+            System.out.print(casiCarta);
+
+            if (i < player.size() - 1) {
+                System.out.print(", ");
+            }
+        }
+        System.out.println("]");
+    }
+
+    static void quecartasI(ArrayList player) {
+        int carta;
+        String casiCarta;
+        char color, numero;
+        for (int i = 0; i < player.size(); i++) {
+            carta = (int) player.get(i);
+            casiCarta = (Cartas[carta]);
+            color = casiCarta.charAt(0);
+            numero = casiCarta.charAt(1);
+            casiCarta = traductor(color, numero);
+            System.out.println("\033[30m" + "[" + i + "] = " + casiCarta);
+
+        }
+
+    }
+
+    static void comp(int x) {
+        int m = 0, borrados = 0;
+        for (int i = 0; i < 108; i++) {
+            if (deck.get(i) == -1) {
+                m++;
+            }
+        }
+        if ((108 - m) < x) {
+            System.out.println("La baraja se quedo sin cartas ahora se reutilizaran las cartas ya usadas");
+            for (int i = 0; i < 108; i++) {
+                if (deck.get(i) == -1) {
+                    deck.remove(i);
+                    borrados++;
+                }
+                if (borrados == deckS.size()) {
+                    break;
+                }
+            }
+            for (int i = 0; i < deckS.size(); i++) {
+                deck.add(deckS.get(i));
+            }
+        }
+    }
+
+    static ArrayList repartir(ArrayList player) {
+        boolean sr = true;
+        int x;
+        for (int i = 0; i < 7; i++) {
+            sr = true;
+            while (sr) {
+                x = ((int) (rnd.nextDouble() * 108));
+                if (deck.contains(x)) {
+                    player.add(x);
+                    deck.set(x, -1);
+                    sr = false;
+                }
+            }
+        }
+        return player;
+    }
+
+    static String[] llenar(String lista[]) {
+        int ai = 0;
+        int ind = 0;
+        String colores[] = {
+            "R", "Y", "B", "G"
+        };
+        String especiales[] = {
+            "Skip", "Reverse", "DMas", "CC", "4Mas"
+        };
+
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 10; j++) {
+                lista[ai] = (colores[i] + ind);
+                ai++;
+                if (j >= 1) {
+                    lista[ai] = (colores[i] + ind);
+                    ai++;
+                }
+                ind++;
+            }
+            ind = 0;
+        }
+
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 4; j++) {
+                if (i == 0 || i == 1 || i == 2) {
+                    lista[ai] = (colores[j] + especiales[i]);
+                    ai++;
+                    lista[ai] = (colores[j] + especiales[i]);
+                    ai++;
+                } else {
+                    lista[ai] = (especiales[i]);
+                    ai++;
+                }
+
+            }
+        }
+        return lista;
+    }
+
+    static int draw() {
+        comp(1);
+        int carta, x = -1;
+        boolean sr = true;
+        while (sr) {
+            carta = ((int) (rnd.nextDouble() * 100));
+            if (deck.contains(carta)) {
+                deck.set(carta, -1);
+                return carta;
+
+            }
+
+        }
+        return x;
+    }
+
+    static ArrayList draw(ArrayList mano, int u, String p) {
+        comp(u);
+        System.out.println("\033[30m" + p + " tiene que robar " + u + " cartas y pierde turno");
+        boolean sr;
+        int x;
+        for (int i = 0; i < u; i++) {
+            sr = true;
+            while (sr) {
+                x = ((int) (rnd.nextDouble() * 108)); //REVISAR
+                if (deck.contains(x)) {
+                    mano.add(x);
+                    deck.set(x, -1);
+                    sr = false;
+                }
+            }
+        }
+        System.out.println(p + " Roba " + u + " cartas");
+        new Scanner(System.in).nextLine();
+        NDraw = 0;
+        if (p == nick) {
+            infoCarta(UCarta);
+            System.out.println("Mano: ");
+            quecartasI(deckPlayer);
+            
+        }
+        return mano;
+    }
+
+    static ArrayList draw(ArrayList mano, String p) {
+        comp(1);
+        boolean sr;
+        int x;
+        sr = true;
+        while (sr) {
+            x = ((int) (rnd.nextDouble() * 108));
+            if (deck.contains(x)) {
+                mano.add(x);
+                deck.set(x, -1);
+                sr = false;
+            }
+        }
+
+        if (p == nick) {
+            infoCarta(UCarta);
+            System.out.println("Mano: ");
+            quecartasI(deckPlayer);
+            
+        }
+        return mano;
+    }
+
+    static int traductorColor(String color) {
+        int c = 0;
+        color = color.toLowerCase();
+        switch (color) {
+            case "rojo":
+                c = -1;
+                break;
+            case "verde":
+                c = -2;
+                break;
+            case "azul":
+                c = -4;
+                break;
+            case "amarillo":
+                c = -3;
+                break;
+        }
+        return c;
+    }
+
+    static int traductorN(String n) {
+        int x = -1;
+        if (n == nick) {
+            x = 0;
+        }
+        switch (n) {
+
+            case "PC1":
+                x = 1;
+                break;
+            case "PC2":
+                x = 2;
+                break;
+            case "PC3":
+                x = 3;
+                break;
+        }
+        return x;
+    }
+
+    static String traductor(char a, char b) {
+        String respuesta, color = "", numero = "", colorConsola = "";
+        switch (a) {
+            case 'R':
+                color = "Rojo";
+                colorConsola = "\033[31m";
+                break;
+            case 'Y':
+                color = "Amarillo";
+                colorConsola = "\033[33m";
+                break;
+            case 'B':
+                color = "Azul";
+                colorConsola = "\033[34m";
+                break;
+            case 'G':
+                color = "Verde";
+                colorConsola = "\033[32m";
+                break;
+            case 'C':
+                color = "Cambio de color";
+                break;
+            case '4':
+                color = "Mas 4";
+                break;
+        }
+        switch (b) {
+            case '0':
+                numero = "0 ";
+                break;
+            case '1':
+                numero = "1 ";
+                break;
+            case '2':
+                numero = "2 ";
+                break;
+            case '3':
+                numero = "3 ";
+                break;
+            case '4':
+                numero = "4 ";
+                break;
+            case '5':
+                numero = "5 ";
+                break;
+            case '6':
+                numero = "6 ";
+                break;
+            case '7':
+                numero = "7 ";
+                break;
+            case '8':
+                numero = "8 ";
+                break;
+            case '9':
+                numero = "9 ";
+                break;
+            case 'S':
+                numero = "Saltar ";
+                break;
+            case 'R':
+                numero = "Devolver ";
+                break;
+            case 'D':
+                numero = "Mas 2 ";
+                break;
+            case 'Z':
+                numero = "";
+                break;
+
+        }
+        respuesta = (colorConsola + numero + color);
+        return respuesta;
+    }
+
+    static ArrayList IA(ArrayList mano, int ultimo, String player) throws InterruptedException {
+        System.out.println("Turno de " + player);
+        Thread.sleep(100);
+        char color = ' ', numero = ' ', cmano, nmano;
+        boolean d = true;
+        String carta, ucarta;
+        int idCarta;
+        if (ultimo < 0) {
+            color = c[Math.abs(ultimo)];
+            numero = 'Z';
+        } else {
+            String ultima = Cartas[ultimo];
+            color = ultima.charAt(0);
+            numero = ultima.charAt(1);
+        }
+        System.out.println(d + " Booleano D");
+
+        while (d) {
+            for (int i = 0; i < mano.size(); i++) {
+                idCarta = (int) mano.get(i);
+                cmano = (Cartas[idCarta].charAt(0));
+                nmano = (Cartas[idCarta].charAt(1));
+                System.out.println(NDraw + " NDraw del IA");
+                if (cmano == 'C' || cmano == '4') {
+                    if (cmano == '4') {
+                        NDraw = 4;
+                    }
+
+                    carta = traductor(cmano, nmano);
+                    ucarta = traductor(color, numero);
+                    System.out.println("\033[30m" + player + " juega la carta '" + carta + "\033[30m" + "' sobre la carta '" + ucarta + "\033[30m" + "'");
+                    deckS.add(idCarta);
+                    mano.remove(mano.indexOf(idCarta));
+                    if (mano.size() == 1) {
+                        Win = player;
+                    }
+                    int x = ((int) ((rnd.nextDouble() * 3) + 1));
+                    UCarta = -x;
+                    int temp = x - 1;
+                    System.out.println("\033[30m" + player + " Cambia el color a " + ce[Math.abs(x)]);
+                    new Scanner(System.in).nextLine();
+                    return mano;
+
+                } else if (color == cmano) {
+                    if (nmano == 'D') {
+                        NDraw = 2;
+                    }
+
+                    carta = traductor(cmano, nmano);
+                    ucarta = traductor(color, numero);
+                    System.out.println("\033[30m" + player + " juega la carta '" + carta + "\033[30m" + "' sobre la carta '" + ucarta + "\033[30m" + "'");
+                    deckS.add(idCarta);
+                    mano.remove(mano.indexOf(idCarta));
+                    if (mano.size() == 1) {
+                        Win = player;
+                    }
+                    UCarta = idCarta;
+
+                    if (nmano == 'R') {
+                        int orden = traductorN(player);
+                        if (Se == 1) {
+                            switch (orden) {
+                                case 0:
+                                    reverse[0] = 3;
+                                    reverse[1] = 2;
+                                    reverse[2] = 1;
+                                    reverse[3] = 0;
+                                    break;
+                                case 1:
+                                    reverse[0] = 0;
+                                    reverse[1] = 3;
+                                    reverse[2] = 2;
+                                    reverse[3] = 1;
+                                    break;
+                                case 2:
+                                    reverse[0] = 1;
+                                    reverse[1] = 0;
+                                    reverse[2] = 3;
+                                    reverse[3] = 2;
+                                    break;
+                                case 3:
+                                    reverse[0] = 2;
+                                    reverse[1] = 1;
+                                    reverse[2] = 0;
+                                    reverse[3] = 3;
+                                    break;
+                            }
+                            cambio = true;
+                            Se = -1;
+                            System.out.println("\033[30m" + player + " cambio la direccion del juego");
+
+                        } else {
+                            switch (orden) {
+                                case 0:
+                                    reverse[0] = 3;
+                                    reverse[1] = 0;
+                                    reverse[2] = 1;
+                                    reverse[3] = 2;
+                                    break;
+                                case 1:
+                                    reverse[0] = 2;
+                                    reverse[1] = 3;
+                                    reverse[2] = 0;
+                                    reverse[3] = 1;
+                                    break;
+                                case 2:
+                                    reverse[0] = 1;
+                                    reverse[1] = 2;
+                                    reverse[2] = 3;
+                                    reverse[3] = 0;
+                                    break;
+                                case 3:
+                                    reverse[0] = 0;
+                                    reverse[1] = 1;
+                                    reverse[2] = 2;
+                                    reverse[3] = 3;
+                                    break;
+                            }
+                            cambio = true;
+                            Se = 1;
+                            System.out.println("\033[30m" + player + " cambio la direccion del juego");
+                        }
+
+                    }
+
+                    if (nmano == 'S') {
+                        if (Se == 1) {
+                            int orden = traductorN(player);
+                            switch (orden) {
+                                case 0:
+                                    NDraw = 0;
+                                    System.out.println("\033[30m" + "PC1 pierde turno");
+                                    break;
+                                case 1:
+                                    NDraw = 0;
+                                    System.out.println("\033[30m" + "PC2 pierde turno");
+                                    break;
+                                case 2:
+                                    NDraw = 0;
+                                    System.out.println("\033[30m" + "PC3 pierde turno");
+                                    break;
+                                case 3:
+                                    NDraw = 0;
+                                    System.out.println("\033[30m" + nick + " pierde turno");
+                                    break;
+                            }
+                            System.out.println("");
+                        } else {
+                            int orden = traductorN(player);
+                            switch (orden) {
+                                case 0:
+                                    NDraw = 0;
+                                    System.out.println("\033[30m" + "PC3 pierde turno");
+                                    break;
+                                case 1:
+                                    NDraw = 0;
+                                    System.out.println("\033[30m" + nick + " pierde turno");
+                                    break;
+                                case 2:
+                                    NDraw = 0;
+                                    System.out.println("\033[30m" + "PC1 pierde turno");
+                                    break;
+                                case 3:
+                                    NDraw = 0;
+                                    System.out.println("\033[30m" + "PC2 pierde turno");
+                                    break;
+                            }
+                        }
+                    }
+                    new Scanner(System.in).nextLine();
+                    return mano;
+
+                } else if (numero == nmano) {
+                    if (nmano == 'D') {
+                        NDraw = 2;
+                    }
+
+                    carta = traductor(cmano, nmano);
+                    ucarta = traductor(color, numero);
+                    System.out.println("\033[30m" + player + " juega la carta '" + carta + "\033[30m" + "' sobre la carta '" + ucarta + "\033[30m" + "'");
+                    deckS.add(idCarta);
+                    mano.remove(mano.indexOf(idCarta));
+                    if (mano.size() == 1) {
+                        Win = player;
+                    }
+                    System.out.println(nmano + " nmano");
+                    System.out.println(NDraw + " nDraw");
+                    UCarta = idCarta;
+                    if (nmano == 'S') {
+                        int orden = traductorN(player);
+                        switch (orden) {
+                            case 0:
+                                NDraw = 0;
+                                System.out.println("\033[30m" + "PC1 pierde turno");
+                                break;
+                            case 1:
+                                NDraw = 0;
+                                System.out.println("\033[30m" + "PC2 pierde turno");
+                                break;
+                            case 2:
+                                NDraw = 0;
+                                System.out.println("\033[30m" + "PC3 pierde turno");
+                                break;
+                            case 3:
+                                NDraw = 0;
+                                System.out.println("\033[30m" + nick + " pierde turno");
+                                break;
+                        }
+                        System.out.println("");
+
+                    }
+
+                    new Scanner(System.in).nextLine();
+                    return mano;
+                }
+            }
+            System.out.println("\033[30m" + player + " roba carta");
+            mano = draw(mano, player);
+            if (isValid(UCarta,mano) == false){
+                System.out.println(player+" no tiene cartas validas para jugar, pierde turno");
+                return mano;
+            }
+        }
+        return mano;
+
+    }
+
+    static void infoCarta(int ultimo) {
+        char color = ' ', numero = ' ';
+        String carta;
+        if (ultimo < 0) {
+            color = c[Math.abs(UCarta)];
+            numero = ' ';
+        } else {
+            String ultima = Cartas[ultimo];
+            color = ultima.charAt(0);
+            numero = ultima.charAt(1);
+        }
+        System.out.println("\033[30m" + "Ultima carta jugada: " + traductor(color, numero));
+        System.out.println("");
+    }
+
+    static void info(int ultimo) {
+        //String respuesta;
+        char color = ' ', numero = ' ';
+        String carta, ucarta;
+        int idCarta;
+        if (ultimo < 0) {
+            color = c[Math.abs(UCarta)];
+            numero = ' ';
+        } else {
+            String ultima = Cartas[ultimo];
+            color = ultima.charAt(0);
+            numero = ultima.charAt(1);
+        }
+        System.out.println("\033[30m" + "PC1 tiene " + pc1.size() + " cartas");
+        System.out.println("\033[30m" + "PC2 tiene " + pc2.size() + " cartas");
+        System.out.println("\033[30m" + "PC3 tiene " + pc3.size() + " cartas");
+        System.out.println("\033[30m" + "Tienes " + deckPlayer.size() + " cartas");
+        System.out.println("");
+        System.out.println("\033[30m" + "Ultima carta jugada: " + traductor(color, numero));
+        System.out.println("");
+        System.out.print("\033[30m" + "Mano:");
+        System.out.println("");
+        quecartasI(deckPlayer);
+    }
+    //////////////////////////////////////////////////////////////////////
+
+    static ArrayList JU(ArrayList mano, int ultimo, String player) {
+
+        char color = ' ', numero = ' ', cmano, nmano;
+        boolean Cvalida = true;
+        String carta, ucarta;
+        int idCarta = 0, temp;
+        if (ultimo < 0) {
+            color = c[Math.abs(UCarta)];
+            numero = ' ';
+        } else {
+            String ultima = Cartas[ultimo];
+            color = ultima.charAt(0);
+            numero = ultima.charAt(1);
+        }
+        ////////////////////////
+
+        drawI = -1;
+        while (drawI <= 0) {
+            byte robadas = 0;
+            Cvalida = true;
+            System.out.println(Cvalida + "Cvalida");
+            while (Cvalida) {
+                temp = entrada.nextInt();
+                if (temp < mano.size() && temp >= 0) {
+                    idCarta = (int) mano.get(temp);
+                    Cvalida = false;
+                } else if (temp == -1 && robadas == 0) {
+                    System.out.println("\033[30m" + player + " roba carta");
+                    System.out.println("");
+                    mano = draw(mano, player);
+                    robadas += 1;
+                    drawI = 1;
+                    if (isValid(UCarta, mano) == false) {
+                        System.out.println("No tienes cartas validas para jugar, pierdes turno");
+                        return mano;
+                    }
+                
+                }else if(temp ==-1 && robadas > 0){
+                    System.out.println("No puedes robar más cartas");
+                }else {
+                    info(UCarta);
+                    System.out.println("");
+                    System.out.println("Estás tratando de jugar una carta que no tienes");
+                    System.out.println("Índice jugado: " + temp + ".... Máximo índice permitido: " + (mano.size() - 1));
+                    System.out.println("Si quieres robar carta el índice es: -1");
+                }
+            }
+
+            cmano = (Cartas[idCarta].charAt(0));
+            nmano = (Cartas[idCarta].charAt(1));
+            if (cmano == 'C' || cmano == '4') {
+                if (cmano == '4') {
+                    NDraw = 4;
+                }
+
+                carta = traductor(cmano, nmano);
+                ucarta = traductor(color, numero);
+                System.out.println("\033[30m" + player + " juega la carta '" + carta + "\033[30m" + "' sobre la carta '" + ucarta + "\033[30m" + "'");
+                deckS.add(idCarta);
+                mano.remove(mano.indexOf(idCarta));
+                if (mano.size() == 1) {
+                    Win = player;
+                }
+                int x = (traductorColor(entrada.next()));
+                UCarta = x;
+                System.out.println("\033[30m" + player + " Cambia el color a " + ce[Math.abs(UCarta)]);
+                new Scanner(System.in).nextLine();
+                return mano;
+
+            } else if (color == cmano) {
+                if (nmano == 'D') {
+                    NDraw = 2;
+                }
+
+                carta = traductor(cmano, nmano);
+                ucarta = traductor(color, numero);
+                System.out.println("\033[30m" + player + " juega la carta '" + carta + "\033[30m" + "' sobre la carta '" + ucarta + "\033[30m" + "'");
+                deckS.add(idCarta);
+                mano.remove(mano.indexOf(idCarta));
+                if (mano.size() == 1) {
+                    Win = player;
+                }
+                UCarta = idCarta;
+
+                if (nmano == 'R') {
+                    int orden = traductorN(player);
+                    if (Se == 1) {
+                        switch (orden) {
+                            case 0:
+                                reverse[0] = 3;
+                                reverse[1] = 2;
+                                reverse[2] = 1;
+                                reverse[3] = 0;
+                                break;
+                            case 1:
+                                reverse[0] = 0;
+                                reverse[1] = 3;
+                                reverse[2] = 2;
+                                reverse[3] = 1;
+                                break;
+                            case 2:
+                                reverse[0] = 1;
+                                reverse[1] = 0;
+                                reverse[2] = 3;
+                                reverse[3] = 2;
+                                break;
+                            case 3:
+                                reverse[0] = 2;
+                                reverse[1] = 1;
+                                reverse[2] = 0;
+                                reverse[3] = 3;
+                                break;
+                        }
+                        cambio = true;
+                        Se = -1;
+                        System.out.println("\033[30m" + player + " cambio la direccion del juego");
+
+                    } else {
+                        switch (orden) {
+                            case 0:
+                                reverse[0] = 1;
+                                reverse[1] = 2;
+                                reverse[2] = 3;
+                                reverse[3] = 0;
+                                break;
+                            case 1:
+                                reverse[0] = 2;
+                                reverse[1] = 3;
+                                reverse[2] = 0;
+                                reverse[3] = 1;
+                                break;
+                            case 2:
+                                reverse[0] = 3;
+                                reverse[1] = 0;
+                                reverse[2] = 1;
+                                reverse[3] = 2;
+                                break;
+                            case 3:
+                                reverse[0] = 0;
+                                reverse[1] = 1;
+                                reverse[2] = 2;
+                                reverse[3] = 3;
+                                break;
+                        }
+                        cambio = true;
+                        Se = 1;
+                        System.out.println("\033[30m" + player + " cambio la direccion del juego");
+                    }
+
+                }
+
+                if (nmano == 'S') {
+                    System.out.println(Se);
+                    if (Se == 1) {
+                        int orden = traductorN(player);
+                        switch (orden) {
+                            case 0:
+                                NDraw = 0;
+                                System.out.println("\033[30m" + "PC1 pierde turno");
+                                break;
+                            case 1:
+                                NDraw = 0;
+                                System.out.println("\033[30m" + "PC2 pierde turno");
+                                break;
+                            case 2:
+                                NDraw = 0;
+                                System.out.println("\033[30m" + "PC3 pierde turno");
+                                break;
+                            case 3:
+                                NDraw = 0;
+                                System.out.println("\033[30m" + nick + " pierde turno");
+                                break;
+                        }
+                        System.out.println("");
+                    } else {
+                        int orden = traductorN(player);
+                        switch (orden) {
+                            case 0:
+                                NDraw = 0;
+                                System.out.println("\033[30m" + "PC3 pierde turno");
+                                break;
+                            case 1:
+                                NDraw = 0;
+                                System.out.println("\033[30m" + nick + " pierde turno");
+                                break;
+                            case 2:
+                                NDraw = 0;
+                                System.out.println("\033[30m" + "PC1 pierde turno");
+                                break;
+                            case 3:
+                                NDraw = 0;
+                                System.out.println("\033[30m" + "PC2 pierde turno");
+                                break;
+                        }
+                    }
+                }
+
+                new Scanner(System.in).nextLine();
+                return mano;
+
+            } else if (numero == nmano) {
+                if (nmano == 'D') {
+                    NDraw = 2;
+                }
+
+                carta = traductor(cmano, nmano);
+                ucarta = traductor(color, numero);
+                System.out.println("\033[30m" + player + " juega la carta '" + carta + "\033[30m" + "' sobre la carta '" + ucarta + "\033[30m" + "'");
+                deckS.add(idCarta);
+                mano.remove(mano.indexOf(idCarta));
+                if (mano.size() == 1) {
+                    Win = player;
+                }
+                UCarta = idCarta;
+                if (nmano == 'S') {
+                    int orden = traductorN(player);
+                    switch (orden) {
+                        case 0:
+                            if (reverse[1] == 0) {
+                                juega = false;
+                            }
+                            ;
+                            P1 = -1;
+                            System.out.println("\033[30m" + "PC1 pierde turno");
+                            break;
+                        case 1:
+                            if (reverse[2] == 0) {
+                                juega = false;
+                            }
+                            ;
+                            P2 = -1;
+                            System.out.println("\033[30m" + "PC2 pierde turno");
+                            break;
+                        case 2:
+                            if (reverse[3] == 0) {
+                                juega = false;
+                            }
+                            ;
+                            P3 = -1;
+                            System.out.println("\033[30m" + "PC3 pierde turno");
+                            break;
+                        case 3:
+                            if (reverse[0] == 0) {
+                                juega = false;
+                            }
+                            ;
+                            Op = -1;
+                            System.out.println("\033[30m" + nick + " pierde turno");
+                            break;
+                    }
+                    System.out.println("");
+                }
+
+                if (nmano == 'R') {
+                    int orden = traductorN(player);
+                    if (Se == 1) {
+                        switch (orden) {
+                            case 0:
+                                reverse[0] = 3;
+                                reverse[1] = 2;
+                                reverse[2] = 1;
+                                reverse[3] = 0;
+                                break;
+                            case 1:
+                                reverse[0] = 0;
+                                reverse[1] = 3;
+                                reverse[2] = 2;
+                                reverse[3] = 1;
+                                break;
+                            case 2:
+                                reverse[0] = 1;
+                                reverse[1] = 0;
+                                reverse[2] = 3;
+                                reverse[3] = 2;
+                                break;
+                            case 3:
+                                reverse[0] = 2;
+                                reverse[1] = 1;
+                                reverse[2] = 0;
+                                reverse[3] = 3;
+                                break;
+                        }
+                        cambio = true;
+                        Se = -1;
+                        System.out.println("\033[30m" + player + " cambio la direccion del juego");
+
+                    } else {
+                        switch (orden) {
+                            case 0:
+                                reverse[0] = 3;
+                                reverse[1] = 0;
+                                reverse[2] = 1;
+                                reverse[3] = 2;
+                                break;
+                            case 1:
+                                reverse[0] = 2;
+                                reverse[1] = 3;
+                                reverse[2] = 0;
+                                reverse[3] = 1;
+                                break;
+                            case 2:
+                                reverse[0] = 1;
+                                reverse[1] = 2;
+                                reverse[2] = 3;
+                                reverse[3] = 0;
+                                break;
+                            case 3:
+                                reverse[0] = 0;
+                                reverse[1] = 1;
+                                reverse[2] = 2;
+                                reverse[3] = 3;
+                                break;
+                        }
+                        cambio = true;
+                        Se = 1;
+                        System.out.println("\033[30m" + player + " cambio la direccion del juego");
+                    }
+
+                }
+
+                new Scanner(System.in).nextLine();
+                return mano;
+            }
+            if (drawI == -1) {
+                System.out.println("\033[30m" + player + " roba carta por intentar jugar una carta no valida y pierde turno");
+                System.out.println("");
+                new Scanner(System.in).nextLine();
+                mano = draw(mano, player);
+                drawI = 1;
+            } else {
+                System.out.println("Ya arrastraste y tu carta no es válida, pierdes turno");
+                break;
+            }
+        }
+
+        return mano;
+
+    }
+
+    static boolean isValid(int ultimac, ArrayList mano) {
+        int idCarta, cmano, nmano, uc, un,cValidas = 0;
+        if (ultimac > 0){
+            uc = (Cartas[ultimac].charAt(0));
+            un = (Cartas[ultimac].charAt(1));
+        }else{
+            uc = c[Math.abs(ultimac)];
+            un = 'z';
+            
+        }
+        for (int i = 0; i < mano.size(); i++) {
+            idCarta = (int) mano.get(i);
+            cmano = (Cartas[idCarta].charAt(0));
+            nmano = (Cartas[idCarta].charAt(1));
+            
+            if (cmano == uc || nmano == un) {
+                cValidas += 1;
+            
+            }else if(cmano == 'M' || cmano == 'C'){
+                cValidas += 1;
+            }
+        }    
+        if (cValidas > 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+}    
+    
+        
