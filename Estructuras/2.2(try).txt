@@ -1,0 +1,38 @@
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Scanner e = new Scanner(System.in);
+        LinkedList<Integer> L = new LinkedList<Integer>();
+        Iterator<Integer> I = L.listIterator();
+        int a, u;
+        short n = e.nextShort();
+        short k = n;
+        for (int i = 0; i < n; i++) {
+            L.add(e.nextInt());
+        }
+        a = e.nextInt();
+        L.remove(L.indexOf(a));
+        k = e.nextShort();
+        u = a;
+        System.out.println(k + " k " + u + " u");
+        System.out.println(L.indexOf(u + 1));
+        for (int i = n; i > k; i--) {
+            if (L.indexOf(u) == 1 || L.indexOf(u) == 0) {
+                break;
+            } else if (u % 2 == 0) {
+                L.remove(L.indexOf(u));
+                u = L.get(L.indexOf(u));
+            } else if (u % 2 != 0) {
+                L.remove(L.indexOf(u - 1));
+                u = L.get(L.indexOf(u - 1));
+            }
+        }
+        I = L.iterator();
+        while (I.hasNext()) {
+            System.out.println(I.next());
+        }
+    }
+}

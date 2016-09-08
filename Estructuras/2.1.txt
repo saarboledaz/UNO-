@@ -1,0 +1,29 @@
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner e = new Scanner(System.in);
+        String c;
+        int x, a;
+        LinkedList<Integer> L = new LinkedList<Integer>();
+        Iterator<Integer> I = L.listIterator();
+        c = e.next();
+        while (!c.equals("fin")) {
+            if (c.equals("entra")) {
+                x = e.nextInt();
+                L.add(x);
+            } else if (c.equals("sale")) {
+                x = e.nextInt();
+                L.remove(L.indexOf(x));
+            } else if (c.equals("tenemos")) {
+                I = L.listIterator();
+                System.out.println("tenemos");
+                while (I.hasNext()) {
+                    System.out.println(I.next());
+                }
+            }
+            c = e.next();
+        }
+    }
+}
