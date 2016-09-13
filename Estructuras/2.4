@@ -1,0 +1,32 @@
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner e = new Scanner (System.in);
+        String c = e.next();
+        long m;
+        
+        LinkedList<Long> a = new LinkedList<Long>();
+        while(!c.equals("E")){
+            if(c.equals("A")){
+                a.add(e.nextLong());
+            } else {
+                long s = 0;
+                m = e.nextLong();
+                Iterator<Long> i = a.listIterator();
+                while(i.hasNext()){
+                    long it = i.next();
+                    if (it % m == 0){
+                        s += it;
+                    }
+                }
+                System.out.println(s);
+                
+            }
+            c = e.next();
+        }
+        
+
+    }
+}
