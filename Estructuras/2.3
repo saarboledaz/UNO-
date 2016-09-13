@@ -1,0 +1,51 @@
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner e = new Scanner (System.in);
+        String en = e.next();
+        LinkedList<String> a = new LinkedList<String>();
+        int b;
+        
+        while(!en.equals("F")){
+            String p = "";
+            switch (en){
+                case ("D"):
+                    if(a.size() > 0){
+                        a.removeLast();
+                    }
+                break;
+                case ("C"):
+                    b = e.nextInt();
+                    if (b <= a.size()){
+                        for (int i = 0; i < b; i++) {
+                            a.removeLast();
+                        }
+                    }
+                break;    
+                case ("B"):
+                    int n = e.nextInt();
+                    if(n <= a.size()){
+                        int q = a.size() - n;
+                        a.remove(q);
+                    }
+                break;
+                case ("M"):
+                    Iterator<String> i = a.listIterator();
+                    while(i.hasNext()){
+                        p += i.next();
+                    }
+                    System.out.println(p);
+                break;    
+                default:
+                    a.add(en);
+                break;    
+                    
+                    
+            }
+           en = e.next(); 
+        }
+
+    }
+}
