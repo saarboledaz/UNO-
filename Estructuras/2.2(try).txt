@@ -19,7 +19,7 @@ public class Main {
         k = e.nextShort();
         u = a;        
         for (int i = n; i > k; i--) {
-            if (L.size() == k) {
+            if (indice == 0 || indice == (L.size()-1)){
                 break;
             } else if (u % 2 == 0) {
                 u = L.get(indice);
