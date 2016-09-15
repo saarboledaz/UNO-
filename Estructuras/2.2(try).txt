@@ -5,29 +5,29 @@ public class Main {
     public static void main(String[] args) {
 
         Scanner e = new Scanner(System.in);
-        LinkedList<Integer> L = new LinkedList<Integer>();
+        LinkedList<Integer> L = new LinkedList<>();
         Iterator<Integer> I = L.listIterator();
         int a, u;
         short n = e.nextShort();
-        short k = n;
+        short k;
         for (int i = 0; i < n; i++) {
             L.add(e.nextInt());
         }
         a = e.nextInt();
+        int indice = (L.indexOf(a));
         L.remove(L.indexOf(a));
         k = e.nextShort();
-        u = a;
-        System.out.println(k + " k " + u + " u");
-        System.out.println(L.indexOf(u + 1));
+        u = a;        
         for (int i = n; i > k; i--) {
-            if (L.indexOf(u) == 1 || L.indexOf(u) == 0) {
+            if (L.size() == k) {
                 break;
             } else if (u % 2 == 0) {
-                L.remove(L.indexOf(u));
-                u = L.get(L.indexOf(u));
+                u = L.get(indice);
+                L.remove(indice);
             } else if (u % 2 != 0) {
-                L.remove(L.indexOf(u - 1));
-                u = L.get(L.indexOf(u - 1));
+                u = L.get(indice - 1);
+                L.remove(indice - 1);
+                indice = (indice - 1);
             }
         }
         I = L.iterator();
