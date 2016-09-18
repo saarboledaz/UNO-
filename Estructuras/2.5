@@ -1,0 +1,56 @@
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner e = new Scanner (System.in);
+        String t,g = e.next();
+        LinkedList<Integer> A = new LinkedList<Integer>();
+        LinkedList<Integer> B = new LinkedList<Integer>();
+        LinkedList<Integer> C = new LinkedList<Integer>();
+        while (!g.equals("Fin")) {
+            switch (g) {
+                case "Equipo":
+                    t = e.next();
+                    if (t.equals("A")) {
+                        A.add(e.nextInt());
+                    } else {
+                        B.add(e.nextInt());
+                    }
+                    break;
+                case "Sale_extremo_izquierdo":
+                    if (!A.isEmpty()){
+                        A.removeFirst();
+                    }
+                    if (!B.isEmpty()){
+                        B.removeFirst();
+                    }
+                    break;
+                case "Sale_extremo_derecho":
+                    if (!A.isEmpty()){
+                        A.removeLast();
+                    }
+                    if (!B.isEmpty()){
+                        B.removeLast();
+                    }
+                    break;
+                case "Fuuuuusion":
+                    C.addAll(A);
+                    C.addAll(B);
+                    Collections.sort(C);
+                    Iterator<Integer> i = C.listIterator();
+                    while(i.hasNext()){
+                        System.out.print(i.next()+" ");
+                    }
+                    C.clear();
+                    break;
+               
+                       
+                
+            }
+            g=e.next();
+        }
+        
+
+    }
+}
