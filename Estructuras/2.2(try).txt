@@ -17,11 +17,11 @@ public class Main {
         int indice = (L.indexOf(a));
         L.remove(L.indexOf(a));
         k = e.nextShort();
-        u = a;        
-        for (int i = n; i > k; i--) {
-            if (indice == 0 || indice == (L.size()-1)){
-                break;
-            } else if (u % 2 == 0) {
+        u = a;
+        int ultimo = L.get(L.size()-1);
+        int first = L.get(0);
+        while(L.size()>k && L.contains(ultimo) && L.contains(first)){
+            if (u % 2 == 0) {
                 u = L.get(indice);
                 L.remove(indice);
             } else if (u % 2 != 0) {
