@@ -1,0 +1,45 @@
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner e = new Scanner (System.in);
+        int n = e.nextInt(), t = e.nextInt(), c = 0, aux = 0;
+        Deque<Long> cola = new LinkedList<Long>();
+        Deque<Integer> q = new LinkedList<Integer>();
+        for (int i = 0; i < n; i++) {
+            cola.add(e.nextLong());
+            q.add(e.nextInt());
+        }
+        while(t > 0 && n > 0){
+            if (c != 5) {
+                aux = t;
+                t -= q.peek();
+                if (t <= 0){
+                    System.out.print(cola.peek()+" "+aux);                    
+                    break;
+                }
+                cola.push(cola.poll());                
+                q.push(q.poll());
+                
+                
+            } else {
+                cola.poll();
+                q.poll();
+                c = 0;
+                n --;
+            }
+            c ++;
+                
+            
+        }
+        if (t > 0 && n == 0){
+            System.out.println("quedaron boletas disponibles");
+        }
+        
+        
+        
+
+
+    }
+}
