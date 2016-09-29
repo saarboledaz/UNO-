@@ -1,0 +1,36 @@
+
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner e = new Scanner (System.in);
+        Deque<Long> stair = new LinkedList<Long>();
+        Deque<Long> inv = new LinkedList<Long>();
+        String o = e.next();
+        while(!o.equals("terminamos")){
+            switch (o) {
+                case "sube":
+                    stair.addFirst(e.nextLong());
+                break;
+                case "baja":
+                    stair.pollFirst();
+                    
+            }
+            o = e.next();           
+        }
+        int s = stair.size();
+        int in = inv.size();
+        for (int j = 0; j < s; j++) {
+            inv.addFirst(stair.pollFirst());
+        }
+        Iterator<Long> i = inv.iterator();
+        while(i.hasNext()){
+            System.out.println(i.next());
+        }
+        
+        
+
+
+    }
+}
