@@ -1,0 +1,28 @@
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] argv) {
+        Scanner e = new Scanner(System.in);
+        int c = e.nextInt();
+        for (int x = 0; x < c; x++) {
+            int p = e.nextInt();
+            int t = e.nextInt();
+            int pe = e.nextInt();
+            LinkedList<Integer> A = new LinkedList<>();
+            LinkedList<Integer> B = new LinkedList<>();
+            for (int i = 0; i < p; i++) {
+                A.add(e.nextInt());
+            }
+            int i = -1;
+            for (int j = p; j > 0; j--) {
+                i = (i + 8) % (p--);
+                B.add(A.remove(i--));
+            }
+            System.out.println("Caso " + (x+1));
+            for (int j = (B.size()-1); j >= (B.size()-(t/pe)); j--){
+                System.out.println(B.get(j));
+            }
+        }
+    }
+}
