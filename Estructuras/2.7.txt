@@ -2,32 +2,33 @@ import java.util.*;
 
 public class Main {
 
-    public static void main(String[] argv) {
+    public static void main(String[] args) {
         Scanner e = new Scanner(System.in);
-        short n = e.nextShort();
-        short k = e.nextShort();
-        short t = 0, a = 0, c = 0;
-        List<Short> A = new LinkedList<>();
-        List<Short> B = new LinkedList<>();
+        LinkedList<Integer> l = new LinkedList<>();
+        int n = e.nextInt();
+        int k = e.nextInt();
+        int t =0;
         for (int i = 0; i < n; i++) {
-            A.add(e.nextShort());
+            l.add(e.nextInt());
         }
-        int i = 0;
-        for (int j = n; j > 0; j--) {
-            while (A.size() != 1) {
-                i = (i + k) % (n--);
-                B.add(A.remove(i--));
-            }
+        l = josephus(l,k);
+        for (int i = 0; i < n-1; i++) {
+            t+=Math.abs(l.getLast() - l.get(i));
+        }
+        System.out.println(t);
 
+    }
+
+    static LinkedList<Integer> josephus(LinkedList<Integer> p, int step) {
+        int start = 2;
+        int N = p.size();
+        LinkedList<Integer> r = new LinkedList<Integer>();
+        int i = (start - 2) % N;
+        for (int j = N; j > 0; j--) {
+            i = (i + step) % N--;
+            r.add(p.remove(i--));
         }
-        t = A.get(0);
-        for (int x = (B.size()-1); x >= 0; x--) {
-            c = (short) ((t - (B.get(x))));
-            if (c < 0) {
-                c = (short) -c;
-            }
-            a += c;
-        }
-        System.out.println(a);
+
+        return r;
     }
 }
