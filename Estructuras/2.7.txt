@@ -21,7 +21,7 @@ public class Main {
 
         }
         t = A.get(0);
-        for (int x = 0; x < B.size(); x++) {
+        for (int x = (B.size()-1); x >= 0; x--) {
             c = (short) ((t - (B.get(x))));
             if (c < 0) {
                 c = (short) -c;
