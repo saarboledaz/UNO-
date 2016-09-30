@@ -1,0 +1,34 @@
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] argv) {
+        Scanner e = new Scanner(System.in);
+        int k = e.nextInt();
+        for (int x = 0; x < k; x++) {
+            int n = e.nextInt();
+            int u = e.nextInt();
+            int c = 10;
+            if (u > (n * 55)) {
+                System.out.println("Quedaron unidades disponibles");
+            } else {
+                while (u > 0) {
+                    for (int i = 1; i <= n; i++) {
+                        if ((u - c) < 0) {
+                            u -= u;
+                            System.out.println(i);
+                            break;
+                        } else {
+                            u = u - c;
+                            if(u == 0){
+                                System.out.println(i);
+                                break;
+                            }
+                        }
+                    }
+                    c--;
+                }
+            }
+        }
+    }
+}
