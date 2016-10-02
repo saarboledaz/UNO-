@@ -1,0 +1,38 @@
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Deque<Short> f = new LinkedList<Short>();
+        Deque<Short> a = new LinkedList<Short>();
+        Scanner e = new Scanner(System.in);
+        short n  = e .nextShort();
+        
+        short pos;
+        for (int i = 0; i < n; i++) {
+            pos = e.nextShort();
+            while(pos != -1){            
+                f.add(pos);
+                a.addFirst(pos);
+                pos = e.nextShort();
+            }
+            int t = f.size();
+            int s = 0;
+            
+            for (int j = 0; j < t; j++) {
+                if (a.pollFirst() == f.poll()){
+                    s +=1;                     
+                }
+            }
+            if (s != t){
+                System.out.println("no es capicua");
+                
+            }else{
+                System.out.println("es capicua");
+                
+            }
+            
+        }
+         
+    }
+}
