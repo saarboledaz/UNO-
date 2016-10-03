@@ -1,0 +1,42 @@
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+        
+        Deque<String> a = new LinkedList<String>();
+        Scanner e = new Scanner(System.in);
+        short n  = e .nextShort();
+        int p = 0;
+        String sim,close;
+        for (int i = 0; i < n; i++) {
+            sim = e.next();
+            while(!sim.equals(";")){               
+                if (sim.equals("{") || sim.equals("[") || sim.equals("(")){
+                    a.addFirst(sim);
+                } else if (!a.isEmpty()) {
+                    close = a.peekFirst() + sim;
+                    if(close.equals("[]") || close.equals("{}") || close.equals("()")){
+                        a.pollFirst();
+                    } else {
+                        p = 1;
+                        
+                    }
+                } else {
+                    p = 1;
+                }
+                                    
+                sim = e.next();                              
+            }
+            if (p != 1){
+                System.out.println("correcta");
+            } else {
+                System.out.println("incorrecta");
+            }
+            a.clear();
+            p = 0;
+            
+        }
+         
+    }
+}
