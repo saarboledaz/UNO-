@@ -1,0 +1,52 @@
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {       
+        Deque<String> a = new LinkedList<String>();
+        Deque<String> b = new LinkedList<String>();
+        Deque<String> c = new LinkedList<String>();
+        Scanner e = new Scanner(System.in);
+        String n  = e.next();
+        byte o = 0;
+        while(!n.equals("#")){
+            if (!n.equals("inviertete")){
+                if (o == 0) {
+                    a.addFirst(n);
+                } else {
+                    b.addFirst(n);
+                }
+            } else {
+                if (o == 0) {
+                    while(!a.isEmpty()){
+                        b.addFirst(a.pollFirst());
+                    }
+                    a.clear();
+                    o = 1;
+                } else {
+                    while(!b.isEmpty()){
+                        a.addFirst(b.pollFirst());
+                    }
+                    b.clear();
+                    o = 0;
+                }    
+            }
+            n = e.next();
+        }
+        if (o == 0) {
+            while(!a.isEmpty()){
+                c.add(a.poll());
+            }
+        } else {
+            while(!b.isEmpty()){
+                c.add(b.poll());
+            }
+        }
+        while(!c.isEmpty()){
+            System.out.println(c.pollLast());
+        }
+        
+        
+         
+    }
+}
