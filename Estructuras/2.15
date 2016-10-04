@@ -1,0 +1,38 @@
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {       
+        
+        Deque<Integer> b = new LinkedList<Integer>();
+        Scanner e  = new Scanner(System.in);
+        String c = e.next();
+        int n,t = 0;
+        while(!c.equals("fin")){            
+            if (c.equals("ingresa")){
+                e.nextInt();
+                n = e.nextInt();
+                if (t < n || (t == 0 && n == 0)){                    
+                    b.add(n);
+                }
+                t = b.size();
+                
+                for (int i = 0; i < t; i++) {
+                    if (b.peek() < t){                        
+                        b.poll();
+                    } else {
+                        
+                        b.add(b.poll());
+                    }
+                }
+                t = b.size();
+            } else {
+                System.out.println("personas en la cola: "+b.size());
+            }
+            c = e.next();
+        }
+        
+        
+         
+    }
+}
