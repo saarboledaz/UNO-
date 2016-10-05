@@ -1,0 +1,41 @@
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Deque<Integer> f = new LinkedList<Integer>();
+        Deque<Integer> a = new LinkedList<Integer>();
+        Scanner e = new Scanner(System.in);
+        int n = e.nextInt();
+        int b = e.nextInt();
+        for (int i = 0; i < n; i++) {
+            f.add(e.nextInt());
+            a.add(e.nextInt());
+        }
+        while (f.size() > 0 && b > 0) {
+            for (int i = 0; i < 5; i++) {
+                if (i == 4) {
+                    if (b - a.peek() > 0) {
+                        b -= a.poll();
+                        f.poll();
+                    }else{
+                        b-=a.peek();
+                    }
+
+                } else {
+                    b -= a.peek();
+                    if (b <= 0) {
+                        break;
+                    }
+                    a.add(a.poll());
+                    f.add(f.poll());
+                }
+            }
+        }
+        if (b > 0) {
+            System.out.println("quedaron boletas disponibles");
+        } else {
+            System.out.println(f.peek() + " " + (a.peek() + b));
+        }
+    }
+}
