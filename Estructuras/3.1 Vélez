@@ -1,0 +1,19 @@
+import java.util.TreeSet;
+import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner e = new Scanner(System.in);
+        TreeSet<Integer> A = new TreeSet<>();
+        int a, cont = 0;
+        a = e.nextInt();
+        while (a != -1) {
+            if(A.add(a)){
+                cont++;
+            }
+            a = e.nextInt();
+        }
+        System.out.println(A.size());
+    }
+}
