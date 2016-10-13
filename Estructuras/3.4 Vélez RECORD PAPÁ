@@ -1,0 +1,89 @@
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner e = new Scanner(System.in);
+        TreeSet<Long> A = new TreeSet<>();
+        TreeSet<Long> B = new TreeSet<>();
+        TreeSet<Long> C = new TreeSet<>();
+        long aux = 0;
+        String t = e.next();
+        while (!t.equals("FIN")) {
+            switch (t) {
+                case "IngresarEnA":
+                    aux = e.nextLong();
+                    if (A.contains(aux) == false && B.contains(aux) == false && C.contains(aux) == false) {
+                        A.add(aux);
+                    }
+                    break;
+                case "Retirar":
+                    aux = e.nextLong();
+                    if (A.contains(aux)) {
+                        A.remove(aux);
+                    } else if (B.contains(aux)) {
+                        B.remove(aux);
+                    } else if (C.contains(aux)) {
+                        C.remove(aux);
+                    }
+                    break;
+                case "MoverDeAHaciaB":
+                    aux = e.nextLong();
+                    if (A.contains(aux)) {
+                        A.remove(aux);
+                        B.add(aux);
+                    }
+                    break;
+                case "MoverDeAHaciaC":
+                    aux = e.nextLong();
+                    if (A.contains(aux)) {
+                        A.remove(aux);
+                        C.add(aux);
+                    }
+                    break;
+                case "IngresarEnB":
+                    aux = e.nextLong();
+                    if (A.contains(aux) == false && B.contains(aux) == false && C.contains(aux) == false) {
+                        B.add(aux);
+                    }
+                    break;
+                case "IngresarEnC":
+                    aux = e.nextLong();
+                    if (A.contains(aux) == false && B.contains(aux) == false && C.contains(aux) == false) {
+                        C.add(aux);
+                    }
+                    break;
+                case "MoverDeBHaciaA":
+                    aux = e.nextLong();
+                    if (B.contains(aux)) {
+                        B.remove(aux);
+                        A.add(aux);
+                    }
+                    break;
+                case "MoverDeBHaciaC":
+                    aux = e.nextLong();
+                    if (B.contains(aux)) {
+                        B.remove(aux);
+                        C.add(aux);
+                    }
+                    break;
+                case "MoverDeCHaciaA":
+                    aux = e.nextLong();
+                    if (C.contains(aux)) {
+                        C.remove(aux);
+                        A.add(aux);
+                    }
+                    break;
+                case "MoverDeCHaciaB":
+                    aux = e.nextLong();
+                    if (C.contains(aux)) {
+                        C.remove(aux);
+                        B.add(aux);
+                    }
+                    break;
+            }
+            t = e.next();
+        }
+        System.out.println(A.size() + " " + B.size() + " " + C.size());
+    }
+}
