@@ -1,0 +1,27 @@
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner e = new Scanner(System.in);
+        TreeSet<Integer> A = new TreeSet<>();
+        byte C = e.nextByte();
+        int a1 = 0, a2 = 0;
+        for (int i = 0; i < C; i++) {
+            short N = e.nextShort();
+            for (int j = 0; j < N; j++) {
+                A.add(e.nextInt());
+            }
+            while(A.size() != 1){
+                a1 = A.last();
+                a2 = A.first();
+                A.remove(a1);
+                A.remove(a2);
+                A.add(a1-a2);
+            }
+            System.out.println(A.last());
+            A.clear();
+        }
+        
+    }
+}
