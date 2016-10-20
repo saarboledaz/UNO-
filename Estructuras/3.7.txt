@@ -1,0 +1,37 @@
+import java.util.TreeSet;
+import java.util.Scanner;
+public class Main {
+    public static void main(String[] args) {
+        TreeSet<Integer> v=new TreeSet<Integer>();
+        TreeSet<Integer> m=new TreeSet<Integer>();
+        Scanner e=new Scanner(System.in);
+        String a="";
+        int n;
+        while(!a.equals("fin")){
+            a=e.next();
+            switch(a){
+                case("nacimiento"):
+                    n=e.nextInt();
+                    if(!v.contains(n) && !m.contains(n)){
+                        v.add(n);
+                    }
+                    break;
+                case("fallecimiento"):
+                    n=e.nextInt();
+                    if(v.contains(n) && !m.contains(n)){
+                        v.remove(n);
+                        m.add(n);
+                    }
+                    break;
+                case("resucitacion"):
+                    n=e.nextInt();
+                    if(m.contains(n)){
+                        m.remove(n);
+                        v.add(n);
+                    }
+                    break;
+            }
+        }
+    System.out.println(v.size());
+    }
+}
