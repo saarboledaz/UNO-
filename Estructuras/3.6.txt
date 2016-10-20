@@ -1,0 +1,19 @@
+import java.util.TreeSet;
+import java.util.Scanner;
+public class Main {
+    public static void main(String[] args) {
+        TreeSet<String> fr=new TreeSet<String>();
+        Scanner e=new Scanner(System.in);
+        String a="";
+        int sum=0;
+        while(!a.equals("#")){
+            a=e.next();
+            if(!fr.contains(a) && !a.equals("#")){
+                fr.add(a);
+            }else if(fr.contains(a) && !a.equals("#")){
+                sum=sum+1;
+            }
+        }
+        System.out.println(sum);
+    }
+}
