@@ -1,0 +1,231 @@
+package Uno_Consola;
+
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.Random;
+import java.util.Scanner;
+
+
+public class Main {
+
+    static Scanner e = new Scanner(System.in);
+    static Deque<Carta> deck = new LinkedList<>();
+    static Carta ultima;
+    static Random rnd = new Random();
+    static String color[] = {"rojo", "verde", "amarillo", "azul"};
+    static byte Next_Draw = -1;
+    static boolean orden = true, cambio = false, Max_Draw2 = true;
+    static String name;
+
+    public static void main(String[] args) throws InterruptedException {
+
+        deck = Funciones.llenar_Deck(deck);
+        Deque<LinkedList> Jugadores = new LinkedList<>();
+        Deque<String> Nicks = new LinkedList<>();
+        LinkedList<Carta> deckPlayer = new LinkedList<>();
+        LinkedList<Carta> PC1 = new LinkedList<>();
+        LinkedList<Carta> PC2 = new LinkedList<>();
+        LinkedList<Carta> PC3 = new LinkedList<>();
+        //LinkedList<Carta> T = new LinkedList<>();
+        deckPlayer = repartir(deckPlayer);
+        PC1 = repartir(PC1);
+        PC3 = repartir(PC3);
+        PC2 = repartir(PC2);
+        Jugadores.add(deckPlayer);
+        System.out.println("Ingrese su nick: ");
+        name = e.next();
+        Nicks.add(name);
+        Jugadores.add(PC1);
+        Nicks.add("PC1");
+        Jugadores.add(PC2);
+        Nicks.add("PC2");
+        Jugadores.add(PC3);
+        Nicks.add("PC3");
+        ultima = deck.poll();
+        //Ciclo principal
+        while (Funciones.Check_Win(Jugadores)) {
+            if (orden) {
+                if (cambio) {
+                    Jugadores.add(Jugadores.poll());
+                    Nicks.add(Nicks.poll());
+                    cambio = !cambio;
+                }
+                Jugadores.add(IA(Nicks.peek(), Jugadores.peek()));
+                Nicks.add(Nicks.poll());
+                Jugadores.poll();
+                if (Funciones.Win(Jugadores.peekLast(), Nicks.peekLast())) {
+                    break;
+                }
+                new Scanner(System.in).nextLine();
+            } else {
+                if (cambio) {
+                    Jugadores.addFirst(Jugadores.pollLast());
+                    Nicks.addFirst(Nicks.pollLast());
+                    cambio = !cambio;
+                }
+                Jugadores.addFirst(IA(Nicks.peekLast(), Jugadores.peekLast()));
+                Nicks.addFirst(Nicks.pollLast());
+                Jugadores.pollLast();
+                if (Funciones.Win(Jugadores.peek(), Nicks.peek())) {
+                    break;
+                }
+                new Scanner(System.in).nextLine();
+            }
+        }
+    }
+
+
+    static LinkedList<Carta> repartir(LinkedList<Carta> mano) {
+        for (int i = 0; i < 7; i++) {
+            mano.add(deck.poll());
+        }
+        return mano;
+    }
+
+    static LinkedList<Carta> Draw(LinkedList<Carta> mano, String nick) {
+        if (Next_Draw == 0) {
+            System.out.println(nick+" pierde turno");
+        } else {
+            for (int i = 0; i < Next_Draw; i++) {
+                mano.add(deck.poll());
+            }
+            System.out.println(nick+" roba " + Next_Draw + " carta(s)");
+        }
+        Next_Draw = -1;
+        Funciones.info_draw(mano,nick,name);
+        return mano;
+    }
+
+    static void EFF(String nick) {
+        if (!ultima.eff.equals("no")) {
+            switch (ultima.eff) {
+                case "Skip":
+                    Next_Draw = 0;
+                    break;
+                case "Más 2":
+                    Next_Draw = 2;
+                    break;
+                case "Más 4":
+                    Next_Draw = 4;
+                    if (!nick.equals(name)) {
+                        ultima.Cambiar_Color(color[(int) (rnd.nextDouble() * 4)]);
+                        System.out.println(nick + " cambio el color a " + ultima.color);
+                    } else {
+                        ultima.Cambiar_Color(e.next());
+                        System.out.println(nick + " cambio el color a " + ultima.color);
+                    }
+                    break;
+                case "Cambio de Color":
+                    if (!nick.equals(name)) {
+                        ultima.Cambiar_Color(color[(int) (rnd.nextDouble() * 4)]);
+                        System.out.println(nick + " cambio el color a " + ultima.color);
+                    } else {
+                        ultima.Cambiar_Color(e.next());
+                        System.out.println(nick + " cambio el color a " + ultima.color);
+                    }
+                    break;
+                case "Reverse":
+                    orden = !orden;
+                    cambio = !cambio;
+                    break;
+            }
+        }
+    }
+
+    static LinkedList<Carta> IA(String nick, LinkedList<Carta> mano) {
+        System.out.println("=====> turno de: " + nick);
+        if (nick.equals(name)){
+            Funciones.info(mano, ultima);
+        }
+        boolean Max_Draw = true;
+        Max_Draw2 = true;
+        if (nick.equals(name)) {
+            return JU(nick, mano);
+        } else {
+            if (Next_Draw == -1) {
+                while (Max_Draw) {
+                    if (IA.Check_Carta(mano, ultima) != null) {
+                        System.out.println(nick + " juega la carta " + IA.Check_Carta(mano, ultima).nombre + " sobre la carta " + ultima.nombre);
+                        ultima = IA.Check_Carta(mano, ultima);
+                        mano.remove(ultima);
+                        Max_Draw = false;
+                        EFF(nick);
+                    } else {
+                        if (Max_Draw2) {
+                            System.out.println(nick + " roba carta");
+                            Next_Draw = 1;
+                            Max_Draw2 = false;
+                            mano = Draw(mano,nick);
+                        } else {
+                            System.out.println(nick + " no tiene cartas validas para jugar, pierde turno");
+                            Max_Draw = false;
+                            break;
+                        }
+                    }
+                }
+                return mano;
+            } else {
+                mano = Draw(mano,nick);
+                return mano;
+            }
+        }
+    }
+
+    static LinkedList<Carta> JU(String nick, LinkedList<Carta> mano) {
+        if (Next_Draw == -1) {
+            byte ind = 0;
+            boolean bien = true, C_Draw = true;
+            while (true) {
+                if (IA.Check_Carta_Boolean(mano, ultima)) {
+                    while (bien) {
+                        ind = e.nextByte();
+                        if (ind < -1 || ind > mano.size()) {
+                            System.out.println("Indice no valido, el indice tiene que ser: -1 para robar ó de 0 a " + mano.size() + " para escojer la carta");
+                        } else if (ind == -1) {
+                            break;
+                        } else {
+                            bien = false;
+                        }
+                    }
+                    if (ind == -1) {
+                        if (C_Draw) {
+                            Next_Draw = 1;
+                            mano = Draw(mano,nick);
+                            C_Draw = false;
+                        } else {
+                            System.out.println("ya robaste carta, no puedes robar más");
+                        }
+                    } else {
+                        if (IA.Check_Carta_Player(mano, ind, ultima)) {
+                            System.out.println(name + " juega la carta " + mano.get(ind).nombre + " sobre la carta " + ultima.nombre);
+                            ultima = mano.get(ind);
+                            mano.remove(ultima);
+                            EFF(nick);
+                            return mano;
+                        } else {
+                            System.out.println("Estas intentado jugar una carta no valida, robas carta y pierdes turno");
+                            Next_Draw = 1;
+                            mano = Draw(mano,nick);
+                            return mano;
+                        }
+                    }
+                } else {
+                    System.out.print("no tienes cartas validas");
+                    if (C_Draw) {
+                        System.out.println(", robas carta");
+                        Next_Draw = 1;
+                        mano = Draw(mano,nick);
+                        C_Draw = false;
+                    } else {
+                        System.out.println(", ya robaste, pierdes turno");
+                        return mano;
+                    }
+                }
+            }
+
+        } else {
+            mano = Draw(mano,nick);
+            return mano;
+        }
+    }
+}

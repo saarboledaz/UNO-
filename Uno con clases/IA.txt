@@ -1,0 +1,55 @@
+package Uno_Consola;
+
+import java.util.LinkedList;
+
+public class IA {
+
+    static Carta Check_Carta(LinkedList<Carta> mano, Carta ultima) {
+        for (int i = 0; i < mano.size(); i++) {
+            if (mano.get(i).color.equals("negro")) {
+                return mano.get(i);
+            }
+            if (ultima.eff.equals("no")) {
+                if (mano.get(i).color.equals(ultima.color) || mano.get(i).numero == ultima.numero) {
+                    return mano.get(i);
+                }
+            } else if (mano.get(i).eff.equals(ultima.eff) || mano.get(i).color.equals(ultima.color)) {
+                return mano.get(i);
+            }
+        }
+        return null;
+    }
+
+    static boolean Check_Carta_Boolean(LinkedList<Carta> mano, Carta ultima) {
+        for (int i = 0; i < mano.size(); i++) {
+            if (mano.get(i).color.equals("negro")) {
+                return true;
+            }
+            if (ultima.eff.equals("no")) {
+                if (mano.get(i).color.equals(ultima.color) || mano.get(i).numero == ultima.numero) {
+                    return true;
+                }
+            } else if (mano.get(i).eff.equals(ultima.eff) || mano.get(i).color.equals(ultima.color)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    static boolean Check_Carta_Player(LinkedList<Carta> mano, Byte ind, Carta ultima) {
+        if (ultima.eff.equals("no")) {
+            if (mano.get(ind).color.equals("negro") || mano.get(ind).color.equals(ultima.color) || mano.get(ind).numero == ultima.numero) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            if (mano.get(ind).color.equals("negro") || mano.get(ind).color.equals(ultima.color) || mano.get(ind).eff == ultima.eff) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+    }
+}

@@ -1,0 +1,85 @@
+package Uno_Consola;
+
+import java.util.Collections;
+import java.util.Deque;
+import java.util.LinkedList;
+
+public class Funciones {
+
+    static Deque<Carta> llenar_Deck(Deque<Carta> deck1) {
+        LinkedList<Carta> deck = new LinkedList<>();
+        int ai = 0;
+        int ind = 0;
+        String colores[] = {
+                "rojo", "amarillo", "azul", "verde", "negro"
+        };
+        String especiales[] = {
+                "Skip", "Reverse", "Más 2", "Cambio de Color", "Más 4"
+        };
+
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 10; j++) {
+                deck.add(new Carta(ind, colores[i]));
+                if (j >= 1) {
+                    deck.add(new Carta(ind, colores[i]));
+                }
+                ind++;
+            }
+            ind = 0;
+        }
+
+        for (int i = 0; i < 5; i++) {
+            for (int j = 0; j < 4; j++) {
+                if (i == 0 || i == 1 || i == 2) {
+                    deck.add(new Carta(especiales[i], colores[j]));
+                    deck.add(new Carta(especiales[i], colores[j]));
+                } else {
+                    deck.add(new Carta(especiales[i], colores[4]));
+                }
+
+            }
+        }
+        Collections.shuffle(deck);
+        for (int i = 0; i < 108; i++) {
+            deck1.add(deck.get(i));
+        }
+        return deck1;
+    }
+
+    static void info(LinkedList<Carta> mano, Carta ultima) {
+        System.out.println("ultima carta = " + ultima.nombre);
+        for (int i = 0; i < mano.size(); i++) {
+            System.out.println(i +" = [" + mano.get(i).nombre + "]");
+        }
+        System.out.println();
+    }
+
+    static void info_draw(LinkedList<Carta> mano,String nick,String name){
+        if (nick.equals(name)) {
+            for (int i = 0; i < mano.size(); i++) {
+                System.out.println(i + "= [" + mano.get(i).nombre + "]");
+            }
+            System.out.println();
+        }
+    }
+
+    static boolean Win(LinkedList<Carta> mano, String nick){
+        if (mano.size()==1){
+            System.out.println("!Gano "+nick);
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    static boolean Check_Win(Deque<LinkedList> jugadores){
+        for (int i = 0;i<jugadores.size()+1;i++){
+            if (jugadores.peek().size()==1){
+                jugadores.add(jugadores.poll());
+                return false;
+            }
+        }
+
+        return true;
+    }
+}

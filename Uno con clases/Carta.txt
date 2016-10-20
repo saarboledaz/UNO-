@@ -1,0 +1,29 @@
+package Uno_Consola;
+
+public class Carta {
+    String color;
+    int numero = -1;
+    String eff = "no";
+    String nombre;
+
+    Carta(int n, String c) {
+        color = c;
+        numero = n;
+        nombre = ("'" + String.valueOf(numero) + " " + color + "'");
+    }
+
+    Carta(String ef, String c) {
+        eff = ef;
+        color = c;
+        if (!color.equals("negro")) {
+            nombre = ("'" + eff + " " + color + "'");
+        } else {
+            nombre = ("'" + eff + "'");
+        }
+    }
+
+    void Cambiar_Color(String c) {
+        color = c;
+        nombre = ("'" + eff + " " + color + "'");
+    }
+}
