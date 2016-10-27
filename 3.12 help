@@ -1,0 +1,68 @@
+import java.util.*;
+public class Main {
+    public static void main(String[] args) {
+        PriorityQueue <Integer> a = new PriorityQueue <Integer>();
+        PriorityQueue <Integer> b = new PriorityQueue <Integer>();
+        PriorityQueue <Integer> c = new PriorityQueue <Integer>();
+        PriorityQueue <Integer> h = new PriorityQueue <Integer>();
+        Scanner e  = new Scanner (System.in);
+        String cm = e.next();
+        String team;
+        int ap = 0,bp= 0,cp= 0,ai,bi,ci,min;
+        while(!cm.equals("Fin")){
+            switch (cm) {
+                case "Equipo":
+                    team = e.next();
+                    switch (team){
+                        case "A":
+                            a.add(e.nextInt());
+                            break;
+                        case "B":
+                            b.add(e.nextInt());
+                            break;
+                        case "C":
+                            c.add(e.nextInt());
+                            break;
+                    }
+                    break;
+                case "Salen":
+                    e.next();
+                    e.next();
+                    if (!(a.size() + b.size() + c.size() == 0)) {
+                        ai = a.poll();
+                        bi = a.poll();
+                        ci = a.poll();
+                        h.add(ai);
+                        h.add(bi);
+                        h.add(ci);                        
+                        min = h.poll();
+                        if (min == ai) {
+                            ap += 1;
+                        } else if (min == bi) {
+                            bp += 1;
+                        } else if (min == ci) {
+                            cp += 1;
+                        }
+                        h.clear();
+                            
+                        
+                    }
+                    break;
+                
+                    
+            }
+            cm = e.next();
+            e.next();
+            e.next();
+        }
+        System.out.println("Equipo A "+ap);
+        System.out.println("Equipo B "+bp);
+        System.out.println("Equipo C "+cp);
+
+               
+       
+        
+        
+    }
+    
+}
