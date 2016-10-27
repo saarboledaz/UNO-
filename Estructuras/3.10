@@ -1,0 +1,46 @@
+import java.util.*;
+public class Main {
+    public static void main(String[] args) {
+        TreeSet <String> a = new TreeSet <String>();
+        Scanner e  = new Scanner (System.in);
+        String c,p,s,t,q,n,x,time;
+        c = e.next();
+        while(!c.equals("fin")){
+            switch(c){
+                case "tiempo":
+                    time = e.next() +":";
+                    time += e.next() +":";
+                    time += e.next() +".";
+                    time += e.next();
+                    a.add(time);
+                    break;
+                case "primeros":
+                    e.next();
+                    e.next();
+                    if (a.size() >= 3) {
+                        p = a.first();
+                        a.remove(p);
+                        s = a.first();
+                        a.remove(s);
+                        t = a.first();
+                        a.add(p);
+                        a.add(s);
+                        q = a.last();
+                        a.remove(q);
+                        n = a.last();
+                        a.remove(n);
+                        x = a.last();
+                        a.add(q);
+                        a.add(n);
+                        System.out.println("Primeros " + p + ", " + s + ", " + t + "; Ultimos " + q + ", " + n + ", " + x + "; Total de corredores " + a.size());
+                    }
+                    break;
+                    
+                    
+            }
+            c = e.next();
+        }
+        
+    }
+    
+}
