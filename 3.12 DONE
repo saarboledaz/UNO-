@@ -8,7 +8,7 @@ public class Main {
         Scanner e  = new Scanner (System.in);
         String cm = e.next();
         String team;
-        int ap = 0,bp= 0,cp= 0,ai,bi,ci,min;
+        int ap = 0,bp= 0,cp= 0,ai = 0,bi= 0,ci= 0,min = 1;
         while(!cm.equals("Fin")){
             switch (cm) {
                 case "Equipo":
@@ -28,36 +28,54 @@ public class Main {
                 case "Salen":
                     e.next();
                     e.next();
-                    if (!(a.size() + b.size() + c.size() == 0)) {
-                        ai = a.poll();
-                        bi = a.poll();
-                        ci = a.poll();
+                    if (a.size() != 0 ) {
+                        ai = a.peek();                       
                         h.add(ai);
-                        h.add(bi);
-                        h.add(ci);                        
-                        min = h.poll();
-                        if (min == ai) {
-                            ap += 1;
-                        } else if (min == bi) {
-                            bp += 1;
-                        } else if (min == ci) {
-                            cp += 1;
-                        }
-                        h.clear();
-                            
                         
                     }
+                    if (b.size() != 0){
+                        bi = b.peek();
+                        h.add(bi);
+                        
+                    }
+                    if (c.size() != 0){
+                        ci = c.peek();
+                        h.add(ci);                       
+                        
+                    }
+                    if (a.size() + b.size() + c.size() != 0) {
+                        min = h.poll();
+                        
+                        if (min == ai) {
+                            ap += 1;
+                            
+                        }
+                        if (min == bi) {
+                            bp += 1;
+                            
+                        }
+                        if (min == ci) {
+                            cp += 1;
+                            
+                            
+                        }
+                        h.clear();
+                        a.poll();
+                        b.poll();
+                        c.poll();
+
+                    }
+                              
                     break;
                 
                     
             }
             cm = e.next();
-            e.next();
-            e.next();
+
         }
-        System.out.println("Equipo A "+ap);
-        System.out.println("Equipo B "+bp);
-        System.out.println("Equipo C "+cp);
+        System.out.println("Equipo A: "+ap);
+        System.out.println("Equipo B: "+bp);
+        System.out.println("Equipo C: "+cp);
 
                
        
