@@ -1,0 +1,42 @@
+import java.util.Scanner;
+import java.util.TreeSet;
+
+public class Main {
+
+    public static void main(String[] args) {
+        TreeSet<Integer> t=new TreeSet<>();
+        TreeSet<Integer> s=new TreeSet<>();
+        Scanner e=new Scanner(System.in);
+        int a;
+        String b="";
+        while(!b.equals("#")){
+            b=e.next();
+            switch(b){
+                case("Tadeo"):
+                    a=e.nextInt();
+                    if(!t.contains(a) && !s.contains(a)){
+                        t.add(a);
+                    }
+                    break;
+                case("Sofia"):
+                    a=e.nextInt();
+                    if(!t.contains(a) && !s.contains(a)){
+                        s.add(a);
+                    }
+                    break;
+                case("Donar"):
+                    a=e.nextInt();
+                    if(t.contains(a)){
+                        t.remove(a);
+                        s.add(a);
+                    }else if(s.contains(a)){
+                        s.remove(a);
+                        t.add(a);
+                    }
+                    break;
+            }
+        }
+        System.out.println("Tadeo: "+t.size()+", Sofia: "+s.size());
+    }
+    
+}

@@ -1,0 +1,24 @@
+import java.util.Scanner;
+import java.util.PriorityQueue;
+public class Main {
+    public static void main(String[] args) {
+        PriorityQueue <Integer> eps = new PriorityQueue<>();
+        Scanner e=new Scanner(System.in);
+        String a="";
+        int b=0;
+        while(!a.equals("fin_atencion")){
+            a=e.next();
+            switch(a){
+                case("turno"):
+                    eps.add(e.nextInt());
+                    break;
+                case("siguiente"):
+                    if(eps.size()>0){
+                        b=eps.poll();
+                        break;
+                    }
+                }
+            }
+        System.out.println(b);
+        }
+}

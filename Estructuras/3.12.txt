@@ -1,0 +1,71 @@
+import java.util.Scanner;
+import java.util.PriorityQueue;
+public class Main {
+    public static void main(String[] args) {
+        PriorityQueue<Integer> a = new PriorityQueue<>();
+        PriorityQueue<Integer> b = new PriorityQueue<>();
+        PriorityQueue<Integer> c = new PriorityQueue<>();
+        PriorityQueue<Integer> aux = new PriorityQueue<>();
+        Scanner e=new Scanner(System.in);       
+        String x=" ";
+        int f,g,h,m,co,a1=0,b1=0,c1=0;
+        while(!x.equals("Fin")){
+            x=e.next();
+            switch(x){
+                case("Equipo "):
+                    case("A"):
+                        m=e.nextInt();
+                        a.add(m);
+                        break;
+                    case("B"):
+                        m=e.nextInt();
+                        b.add(m);
+                        break;
+                    case("C"):
+                        m=e.nextInt();
+                        c.add(m);
+                        break;
+                case("Salen"):
+                    e.next();
+                    e.next();
+                    if(!a.isEmpty()){
+                        f=a.poll();
+                        aux.add(f);
+                    }else{
+                        f=0;
+                    }            
+                    if(!b.isEmpty()){
+                        g=b.poll();
+                        aux.add(g);
+                    }else{
+                        g=0;
+                    }
+                    if(!c.isEmpty()){
+                        h=c.poll();
+                        aux.add(h);
+                    }else{
+                        h=0;
+                    }
+                    if(!(f==0 && f==g && f==h )){
+                        co=aux.poll();
+                        if(co==f){
+                            a1=a1+1;
+                        }
+                        if(co==g){
+                            b1=b1+1;
+                        }
+                        if(co==h){
+                            c1=c1+1;
+                        }
+                    }
+                    aux.clear();
+                    break;
+                }
+        
+        
+    }
+        System.out.println("Equipo A: "+a1);
+        System.out.println("Equipo B: "+b1);
+        System.out.println("Equipo C: "+c1);
+    }
+}
