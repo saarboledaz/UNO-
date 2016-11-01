@@ -1,0 +1,32 @@
+
+import java.util.*;
+public class Main {
+    public static void main(String[] args) {
+        PriorityQueue <Integer> a = new PriorityQueue <Integer>();
+        Deque <Integer> b = new LinkedList <Integer>();
+        Scanner e  = new Scanner (System.in);
+        String c = e.next();
+        int n;
+        while(!c.equals("#")){
+            n = e.nextInt();
+            a.add(n);
+            b.add(n);
+            c = e.next();
+        }
+        int ct = 0,cv, length = e.nextInt();
+        while(a.peek() <= length){
+            ct = a.poll();
+            cv = b.poll();
+            System.out.println(ct);
+            a.add(ct+cv);
+            b.add(cv);
+        }
+        
+
+               
+       
+        
+        
+    }
+    
+}
