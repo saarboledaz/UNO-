@@ -1,0 +1,68 @@
+import java.util.Scanner;
+import java.util.PriorityQueue;
+
+public class Main {
+
+    public static void main(String[] args) {
+        PriorityQueue<Integer> A = new PriorityQueue<>();
+        PriorityQueue<Integer> B = new PriorityQueue<>();
+        PriorityQueue<Integer> C = new PriorityQueue<>();
+        PriorityQueue<Integer> Z = new PriorityQueue<>();
+        Scanner e = new Scanner(System.in);
+        String x = " ", equipo = " ";
+        int a= 0, b= 0, c = 0, aux = 0, EA= 0, EB = 0, EC = 0;
+        while (!x.equals("Fin")) {
+            x = e.next();
+            switch (x) {
+                case "Equipo":
+                    equipo = e.next();
+                    switch (equipo) {
+                        case "A":
+                            A.add(e.nextInt());
+                            break;
+                        case "B":
+                            B.add(e.nextInt());
+                            break;
+                        case "C":
+                            C.add(e.nextInt());
+                            break;
+                    }
+                    break;
+                case "Salen":
+                    e.next();
+                    e.next();
+                    if(!A.isEmpty()){
+                        a = A.poll();
+                        Z.add(a);
+                    }
+                    if(!B.isEmpty()){
+                        b = B.poll();
+                        Z.add(b);
+                    }
+                    if(!C.isEmpty()){
+                        c = C.poll();
+                        Z.add(c);
+                    }
+                    if(!Z.isEmpty()){
+                        aux = Z.poll();
+                        if(aux == a){
+                            EA ++;
+                        }
+                        if(aux == b){
+                            EB ++;
+                        }
+                        if(aux == c){
+                            EC ++;
+                        }
+                        
+                    }
+                    Z.clear();
+                    break;
+            }
+
+        }
+        System.out.println("Equipo A: " + EA);
+        System.out.println("Equipo B: " + EB);
+        System.out.println("Equipo C: " + EC);
+    }
+}
