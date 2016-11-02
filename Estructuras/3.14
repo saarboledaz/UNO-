@@ -1,0 +1,41 @@
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+        PriorityQueue<Integer> m = new PriorityQueue<Integer>();
+        Deque <Integer> aux = new LinkedList<Integer>();
+        Scanner e = new Scanner(System.in);
+        int n,a,b,c = e.nextInt();
+        for (int i = 1; i < c+1; i++) {
+            n = e.nextInt();
+            a = e.nextInt();
+            b = e.nextInt();
+            for (int j = 1; j < n+1; j++) {
+                m.add(j);                
+            }
+            while (m.size() != 1) {
+                while (!m.isEmpty()) {
+                    int p = (m.poll() * a) % b;
+                    aux.add(p);
+                    
+                }
+
+                while (!aux.isEmpty()) {
+                    m.add(aux.poll());
+                }
+                m.poll();
+                aux.clear();
+            }
+                
+                
+                    
+            System.out.println("Caso "+i+": "+m.poll());
+            m.clear();
+            aux.clear();
+            
+        }
+
+    }
+
+}
