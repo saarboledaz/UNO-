@@ -1,0 +1,39 @@
+import java.util.PriorityQueue;
+import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner e = new Scanner(System.in);
+        PriorityQueue<Integer> t = new PriorityQueue<>();
+        PriorityQueue<Integer> tt = new PriorityQueue<>();
+        String c = e.next();
+        int n = 0, nn = 1;
+        while (!c.equals("EOF")) {
+            if (c.equals("accepted")) {
+                t.add(e.nextInt());
+            } else if (c.equals("best")) {
+                if (!t.isEmpty()) {
+                    n = t.poll();
+                    tt.add(n);
+                    while (!t.isEmpty()) {
+                        if (n == t.peek()) {
+                            nn++;
+                            tt.add(t.poll());
+                        } else {
+                            break;
+                        }
+                    }
+                    System.out.println(n + " " + nn);
+                    nn = 1;
+                    t.addAll(tt);
+                    tt.clear();
+                } else {
+                    System.out.println("students are not good enough, hahaha");
+                }
+            }
+            c=e.next();
+        }
+    }
+
+}
