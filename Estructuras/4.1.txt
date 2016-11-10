@@ -1,0 +1,21 @@
+import java.util.*;
+public class Main {
+    public static void main(String[] args) {
+        HashMap<Long,Integer> r=new HashMap<>();
+        Scanner e=new Scanner(System.in);
+        long a=e.nextLong(),sum=0;
+        for(int i=0;i<a;i++){
+            long b=e.nextLong();
+            r.put(b,i);
+        }
+        long c=0;
+        while(c!=-1){
+            c=e.nextLong();
+            if(r.containsKey(c)){
+                r.remove(c);
+                sum=sum+799;
+            }
+        }
+        System.out.println(sum);
+    }    
+}
