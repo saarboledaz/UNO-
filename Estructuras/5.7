@@ -1,0 +1,43 @@
+import java.util.*;
+public class Main {
+
+
+    public static void main(String[] args) {
+      HashMap <Integer, Integer> a = new HashMap <Integer, Integer> ();
+      
+      Scanner e = new Scanner(System.in);
+      int m = 100000000,p = 0,k= 0,b,n,d,c = e.nextInt();
+      for (int i = 0; i < c; i++) {
+          n = e.nextInt();
+          d = e.nextInt();
+          int q[] = new int[n];
+          for (int j = 0; j < n; j++) {
+              b = e.nextInt();
+              q[j]= b;
+              a.put(b,b);
+              
+          }
+          for (int j = 0; j < n; j++) {                          
+              if (a.containsKey(d-q[j]) && (Math.abs(q[j]-(d-q[j])) < m)) {
+                  m = Math.abs(q[j]-(d-q[j]));
+                  p = q[j];
+                  k = d-q[j];
+              }
+              
+              
+          }
+          if (p > k){
+              int aux = p;
+              p = k;
+              k = aux;
+          }
+          System.out.println("Camila debe comprar los libros cuyos precios son "+p+" y "+k);
+          m = 1000000;
+          a.clear();
+          
+            
+      }
+
+    }
+    
+}
