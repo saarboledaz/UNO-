@@ -1,0 +1,30 @@
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner e=new Scanner(System.in);
+        HashMap<String,String> v=new HashMap<>();
+        String a=" ";
+        String b=" ";
+        int sum=0;
+        while(!a.equals("-1") && !b.equals("-1")){
+            a=e.next();
+            b=e.next();
+            if(!v.containsKey(a) && !a.equals("-1") && !b.equals("-1")){
+                v.put(a,b);
+            }           
+        }
+        int n=e.nextInt();
+        for(int j=0;j<n;j++){
+            String m=e.next();        
+            for (Map.Entry<String, String> x : v.entrySet()) {
+                if(m.equals(x.getValue())){
+                    sum+=1;
+                }
+            }
+        System.out.println(sum);
+        sum=0;
+        }
+        
+    }
+}
