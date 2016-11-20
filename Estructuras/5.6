@@ -1,0 +1,35 @@
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+        HashMap<Integer, Integer> a = new HashMap<Integer, Integer>();
+        HashMap<Integer, Integer> b = new HashMap<Integer, Integer>();
+        Scanner e = new Scanner(System.in);
+        int f, c = e.nextInt();
+        while (c != -1) {
+            if (!b.containsKey(c)) {
+                if (a.containsKey(c)) {
+                    f = a.get(c);
+                    switch (f) {
+                        case 2:
+                            a.remove(c);
+                            b.put(c, c);
+                            break;
+                        default:
+                            a.put(c, a.get(c) + 1);
+                            break;
+                    }
+
+                } else {
+                    a.put(c,1);
+                }
+
+            }
+            c = e.nextInt();
+        }
+        System.out.println(b.size());
+
+    }
+
+}
