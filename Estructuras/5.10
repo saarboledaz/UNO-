@@ -1,0 +1,60 @@
+import java.util.*;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner e = new Scanner(System.in);
+        HashMap<Integer, Integer> hm = new HashMap<>();
+        TreeSet<Integer> tree = new TreeSet<>();
+        HashMap<Integer,int[]> usados = new HashMap<>();
+        int[] fin= new int[3];
+        
+        int[] numeros;
+        int[] primeros = new int[10000];
+        int nn = e.nextInt();
+        int n = e.nextInt(), nt,key,c = 0;
+        numeros = new int[nn];
+        for (int i = 0; i < nn; i++) {
+            nt = e.nextInt();
+            hm.put(nt, nt);
+            numeros[i] = nt;
+        }
+        Arrays.sort(numeros);
+        for (int i = 0; i < nn; i++) {
+            for (int j = i + 1; j < nn; j++) {
+                if (i != j && numeros[j] != (n - (numeros[i] + numeros[j])) && numeros[i] != (n - (numeros[i] + numeros[j])) && hm.containsKey(n - (numeros[i] + numeros[j]))) {
+                    if (!(tree.contains(numeros[i]) && tree.contains(numeros[j]) && tree.contains((n - (numeros[i] + numeros[j]))))) {
+                        tree.clear();
+                        tree.add(numeros[i]);
+                        tree.add(numeros[j]);
+                        tree.add((n - (numeros[i] + numeros[j])));
+                        int[] t= new int[3];
+                        for (int k = 0; k < 3; k++) {
+                            t[k]= tree.pollFirst();                             
+                        }
+                        key = (t[0]^2)*(t[1]^2)*(t[2]^2)+t[2]^3;
+                        
+                        if(!usados.containsKey(key)){
+                            primeros[c] = key;
+                            usados.put(key, t);
+                            c++;  
+                        }
+                        
+                        
+                     
+                        
+                        
+                        
+                        
+                    }
+                }
+            }
+        }
+        
+        for (int i = 0; i < c; i++) {
+            fin = usados.get(primeros[i]);
+            System.out.println(fin[0] + " " + fin[1] + " " + fin[2]);
+        }
+
+    }
+}
