@@ -1,0 +1,50 @@
+import java.util.HashMap;
+import java.util.Scanner;
+import java.util.TreeSet;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner e = new Scanner(System.in);
+        HashMap<Long, Long> p1 = new HashMap<>();
+        HashMap<Long, Long> p2 = new HashMap<>();
+        HashMap<Long, Long> p3 = new HashMap<>();
+        HashMap<Long, Long> p4 = new HashMap<>();
+        HashMap<Long, Long> p5 = new HashMap<>();
+        TreeSet<Long> t = new TreeSet<>();
+        int to =0;
+        long es;
+        for (int i = 0;i<5;i++) {
+            int n = e.nextInt();
+            for (int j = 0;j<n;j++){
+                if(i==0) {
+                    es = e.nextLong();
+                    t.add(es);
+                    p1.put(es, es);
+                }else if(i==1){
+                    es = e.nextLong();
+                    t.add(es);
+                    p2.put(es, es);
+                }else if(i==2){
+                    es = e.nextLong();
+                    t.add(es);
+                    p3.put(es, es);
+                }else if(i==3){
+                    es = e.nextLong();
+                    t.add(es);
+                    p4.put(es, es);
+                }else if(i==4){
+                    es = e.nextLong();
+                    t.add(es);
+                    p5.put(es, es);
+                }
+            }
+        }
+        while(t.size()>0){
+            if(p1.containsKey(t.first())&&p2.containsKey(t.first())&&p3.containsKey(t.first())&&p4.containsKey(t.first())&&p5.containsKey(t.first())){
+                to++;
+            }
+            t.pollFirst();
+        }
+        System.out.println((int)(1000000/to));
+    }
+}
